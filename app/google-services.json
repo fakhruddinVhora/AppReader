@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688294465057",
+    "project_id": "appreader-e88a9",
+    "storage_bucket": "appreader-e88a9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688294465057:android:32e2c4c9813c4f6ffc5d60",
+        "android_client_info": {
+          "package_name": "com.example.appreader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqIA8n5BX92IX-7H81YvTUyUW1jgyoz74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
