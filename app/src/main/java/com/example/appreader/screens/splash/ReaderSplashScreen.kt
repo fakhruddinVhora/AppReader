@@ -23,6 +23,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.appreader.components.ReaderTitle
+import com.example.appreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,6 +41,7 @@ fun ReaderSplashScreen(navController: NavHostController) {
                 easing = { OvershootInterpolator(8f).getInterpolation(it) }
             ))
         delay(2000L)
+        navController.navigate(ReaderScreens.LoginScreen.name)
     }
 
     Surface(
@@ -55,11 +58,7 @@ fun ReaderSplashScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = "A. Reader",
-                style = MaterialTheme.typography.h3,
-                color = Color.Red.copy(alpha = 0.5f)
-            )
+            ReaderTitle()
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = "\"Read. Change. Yourself\"",
