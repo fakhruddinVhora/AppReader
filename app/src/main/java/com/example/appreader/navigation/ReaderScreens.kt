@@ -1,7 +1,7 @@
 package com.example.appreader.navigation
 
 enum class ReaderScreens {
-    SplashScreen, LoginScreen, CreateAccountScreen, HomeScreen, StatsScreen, DetailsScreen, UpdateScreen;
+    SplashScreen, LoginScreen, HomeScreen, StatsScreen, DetailsScreen, UpdateScreen;
 
 
     companion object {
@@ -9,7 +9,6 @@ enum class ReaderScreens {
             return when (route?.substringBefore("/")) {
                 SplashScreen.name -> SplashScreen
                 LoginScreen.name -> LoginScreen
-                CreateAccountScreen.name -> CreateAccountScreen
                 HomeScreen.name -> HomeScreen
                 StatsScreen.name -> StatsScreen
                 DetailsScreen.name -> DetailsScreen
