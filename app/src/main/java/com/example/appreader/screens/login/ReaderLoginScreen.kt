@@ -1,5 +1,7 @@
 package com.example.appreader.screens.login
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +23,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,20 +33,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.appreader.R
 import com.example.appreader.components.EmailInput
 import com.example.appreader.components.PasswordInput
 import com.example.appreader.components.ReaderTitle
 import com.example.appreader.components.SubmitButton
+import com.example.appreader.navigation.ReaderScreens
 
 @Composable
-fun ReaderLoginScreen(navController: NavHostController) {
-
+fun ReaderLoginScreen(
+    navController: NavHostController,
+    viewModel: LoginScreenViewModel = viewModel()
+) {
+    val context: Context = LocalContext.current
+    val toastMessage by viewModel.showToast.observeAsState("")
+    if (toastMessage.isNotEmpty()) {
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+        viewModel.clearToastMessage()
+    }
     val showLoginForm = rememberSaveable {
         mutableStateOf(false)
     }
@@ -55,23 +70,28 @@ fun ReaderLoginScreen(navController: NavHostController) {
             ReaderTitle()
             if (showLoginForm.value) {
                 UserForm(loading = false, isCreateAccount = false) { email, password ->
-                    //firebase login
+                    viewModel.signInWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             } else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
                     //firebase create account
+                    viewModel.createUserWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             }
         }
-        Spacer(Modifier.height(5.dp))
         Row(
             Modifier.padding(15.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val text = if (showLoginForm.value) "Create Account" else "Login"
-            Text(text = "New User?")
-            Text(text = text, Modifier
+            val clickableText = if (showLoginForm.value) "Create Account" else "Login"
+            val staticText = if (showLoginForm.value) "New User?" else "Existing User?"
+            Text(text = staticText)
+            Text(text = clickableText, Modifier
                 .clickable {
                     showLoginForm.value = !showLoginForm.value
                 }
@@ -103,7 +123,7 @@ fun UserForm(
         email.value.isNotEmpty() && password.value.isNotEmpty()
     }
     val modifier: Modifier = Modifier
-        .height(250.dp)
+        .height(600.dp)
         .background(Color.White)
         .verticalScroll(rememberScrollState())
 

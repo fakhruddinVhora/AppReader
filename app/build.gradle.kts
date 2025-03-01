@@ -56,10 +56,11 @@ dependencies {
 
     //Hilt-Dagger
     implementation(libs.hilt.android)
+    implementation(libs.androidx.runtime.livedata)
     kapt(libs.hilt.compiler)
     kapt(libs.dagger.android.processor)
     kapt(libs.dagger.compiler)
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.hilt.navigation.compose)
 
 //Room
     implementation(libs.androidx.room.runtime)
